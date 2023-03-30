@@ -1,0 +1,52 @@
+
+
+
+#somos-proya{
+    border: 0.01px solid rgba(255, 255, 255, .5);
+    backdrop-filter: blur(20px);
+    box-shadow: 0 0 30px rgba(0, 0, 0, .5);
+    color: whitesmoke;
+    height: 600px;
+}
+
+#somos-proya .container{
+    display: flex;
+    justify-content: space-evenly;
+    text-align: center;
+    padding: 200px 12px;
+}
+
+#somos-proya .texto{
+    width: 75%;
+    max-width: 800px;
+    text-align: initial;
+    padding-left: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#somos-proya h2{
+    margin-top: 0px;
+}
+
+#somos-proya .img-container{
+    background-image: url(".jpg");
+    background-size: cover;
+    background-position: center center;
+    margin: 30px;
+    border-radius: 15px;
+    height: 500px;
+    width: 400px; 
+}
+
+.color-acento{ 
+    color:whitesmoke; 
+    font-size: 20px;
+}
+
+.mayor{
+    color: whitesmoke;
+    font-size: 50px;
+    font-weight: 500;
+}
