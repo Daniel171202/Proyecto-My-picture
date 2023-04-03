@@ -1,8 +1,18 @@
 .gallery-block{
 	padding-bottom: 60px;
 	padding-top: 60px;
+ 
 }
-
+.row {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  margin-right: 0px;
+  margin-left: -0px;
+  margin-top: 15px;
+}
 .gallery-block .heading{
     margin-bottom: 50px;
     text-align: center;

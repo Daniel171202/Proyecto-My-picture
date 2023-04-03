@@ -201,10 +201,33 @@ $result = $conn->query($sql);
 if ($result->num_rows > 0) {
   // Lee el resultado de la consulta
   $row = $result->fetch_assoc();
-  $total_records = $row["total"];
-  echo "La tabla $table_name tiene $total_records registros.";
+  $cantidad = $row["total"];
+  if($cantidad==0){
+    $cantidad=0;
+    $direccion="https://thumbs.dreamstime.com/b/empty-word-crack-background-latter-english-wall-147719385.jpg";
+    $flag=false;
+  }else{
+    $flag=true;
+    $sql = "SELECT Nombre, Descripcion, Ruta FROM $table_name";
+    $result = $conn->query($sql);
+
+    
+    $direccion = array();
+    while ($fila = mysqli_fetch_assoc($result)) {
+      $direccion[] = $fila;
+    }
+
+// Mostrar los datos del array
+
+   
+    
+    echo "La tabla $table_name tiene $cantidad registros.";
+
+
+  }
 } else {
-  echo "No se encontraron registros en la tabla $table_name.";
+  
+
 }
 
 // Cierra la conexión a la base de datos
@@ -290,42 +313,56 @@ $conn->close();
         </div>
       </header>
 
+
+
+
+
+
+
+
+
       
-      
+
+
+
+
+
+
+
       <div class="row">
-	            <div class="col-md-6 col-lg-4">
-	                <div class="card border-0 transform-on-hover">
-	                	<a class="lightbox" href="../img/image1.jpg">
-	                		<img src="../img/image1.jpg" alt="Card Image" class="card-img-top">
-	                	</a>
-	                    <div class="card-body">
-	                        <h6><a href="#">Lorem Ipsum</a></h6>
-	                        <p class="text-muted card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quam urna.</p>
-	                    </div>
-	                </div>
-	            </div>
-	            <div class="col-md-6 col-lg-4">
-	                <div class="card border-0 transform-on-hover">
-						<a class="lightbox" href="../img/image2.jpg">
-		                	<img src="../img/image2.jpg" alt="Card Image" class="card-img-top">
-		                </a>
-	                    <div class="card-body">
-	                        <h6><a href="#">Lorem Ipsum</a></h6>
-	                        <p class="text-muted card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quam urna.</p>
-	                    </div>
-	                </div>
-	            </div>
-	            <div class="col-md-6 col-lg-4">
-	                <div class="card border-0 transform-on-hover">
-	                	<a class="lightbox" href="../img/image3.jpg">
-	                		<img src="../img/image3.jpg" alt="Card Image" class="card-img-top">
-	                	</a>
-	                    <div class="card-body">
-	                        <h6><a href="#">Lorem Ipsum</a></h6>
-	                        <p class="text-muted card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quam urna.</p>
-	                    </div>
-	                </div>
-	            </div>
+      <?php 
+      if($flag){
+        for ($i= 0; $i < $cantidad; $i++) { 
+          ?>
+
+
+        
+
+
+        
+        <div class="col-md-6 col-lg-4">
+            <div class="card border-0 transform-on-hover">
+              <a class="lightbox" href=<?php echo $direccion[$i]["Ruta"]?>>
+                <img src=<?php echo $direccion[$i]["Ruta"]?> alt="Card Image" class="card-img-top">
+              </a>
+                <div class="card-body">
+                    <h6><a href="#"><?php echo $direccion[$i]["Nombre"]?></a></h6>
+                    <p class="text-muted card-text"><?php echo $direccion[$i]["Descripcion"]?></p>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+
+        <?php }
+      }
+      
+      ?>
+<!--
 	            <div class="col-md-6 col-lg-4">
 	                <div class="card border-0 transform-on-hover">
 	                	<a class="lightbox" href="../img/image4.jpg">
@@ -359,7 +396,10 @@ $conn->close();
 	                    </div>
 	                </div>
 	            </div>
-	        </div>
+	        
+-->
+          
+            </div>
       
 
       <div class="container">
