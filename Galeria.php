@@ -208,7 +208,7 @@ if ($result->num_rows > 0) {
     $flag=false;
   }else{
     $flag=true;
-    $sql = "SELECT Nombre, Descripcion, Ruta FROM $table_name";
+    $sql = "SELECT Nombre, Descripcion, Ruta, Precio FROM $table_name";
     $result = $conn->query($sql);
 
     
@@ -339,15 +339,22 @@ $conn->close();
         
 
 
-        
+       
         <div class="col-md-6 col-lg-4">
             <div class="card border-0 transform-on-hover">
-              <a class="lightbox" href=<?php echo $direccion[$i]["Ruta"]?>>
+              <a class="lightbox" href=<?php echo $direccion[$i]["Ruta"]?> >
                 <img src=<?php echo $direccion[$i]["Ruta"]?> alt="Card Image" class="card-img-top">
               </a>
                 <div class="card-body">
                     <h6><a href="#"><?php echo $direccion[$i]["Nombre"]?></a></h6>
+
+                    
                     <p class="text-muted card-text"><?php echo $direccion[$i]["Descripcion"]?></p>
+                    <p class="text-muted card-text"><?php echo $direccion[$i]["Precio"]?></p>
+
+                    <button class="btn btn-primary" type="button"
+                    >Comprar</button>
+
                 </div>
             </div>
         </div>
