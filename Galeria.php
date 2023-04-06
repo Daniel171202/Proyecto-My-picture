@@ -347,13 +347,13 @@ $conn->close();
               </a>
                 <div class="card-body">
                     <h6><a href="#"><?php echo $direccion[$i]["Nombre"]?></a></h6>
-
+                    
                     
                     <p class="text-muted card-text"><?php echo $direccion[$i]["Descripcion"]?></p>
                     <p class="text-muted card-text"><?php echo $direccion[$i]["Precio"]?></p>
-
-                    <button class="btn btn-primary" type="button"
-                    >Comprar</button>
+                    <button class="btn btn-primary" onclick="addToCart('<?php echo $direccion[$i]["Nombre"]?>', <?php echo $direccion[$i]["Precio"]?>)"> Añadir al carrito</button>
+                    
+                  
 
                 </div>
             </div>
@@ -464,5 +464,46 @@ $conn->close();
     <script>
         baguetteBox.run('.cards-gallery', { animation: 'slideIn'});
     </script>
+    <script>
+        let cartItems = [];
+
+// Crea una función para añadir un artículo al carrito
+        function addToCart(itemName, itemPrice) {
+          // Crea un objeto para representar el artículo
+          const item = {
+            name: itemName,
+            price: itemPrice
+          };
+
+          // Añade el artículo al array de artículos en el carrito
+          cartItems.push(item);
+
+          // Actualiza la vista del carrito para mostrar el contenido actualizado
+          updateCart();
+        }
+
+        // Crea una función para mostrar el contenido actual del carrito
+        function updateCart() {
+          // Obtiene el elemento del HTML donde se mostrará el carrito
+          const cart = document.getElementById("cart");
+
+          // Crea una variable para almacenar el HTML que se mostrará en el carrito
+          let cartHTML = "";
+
+          // Itera sobre los artículos en el carrito y crea un elemento HTML para cada uno
+          cartItems.forEach(function(item) {
+            cartHTML += "<div>" + item.name + " - $" + item.price + "</div>";
+          });
+
+          // Si el carrito está vacío, muestra un mensaje de aviso en lugar de los artículos
+          if (cartItems.length === 0) {
+            cartHTML = "<p>Tu carrito está vacío</p>";
+          }
+
+          // Muestra el contenido del carrito en la página HTML
+          cart.innerHTML = cartHTML;
+        }
+    </script>
+    <div id="cart"></div>
   </body>
 </html>
