@@ -70,13 +70,16 @@
       
     </style>
 
-    
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.css" />
+    <link rel="stylesheet" href="cards-gallery.css">
     <!-- Custom styles for this template -->
     <link href="css/features.css" rel="stylesheet">
     <link href="css/product.css" rel="stylesheet">
     <link href="css/cover.css" rel="stylesheet">
     <link href="css/headers.css" rel="stylesheet">
     <link href="css/carousel.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
   </head>
   
     
@@ -176,6 +179,62 @@
 
 
 
+<?php 
+// Establece la conexión a la base de datos
+
+
+$conn = mysqli_connect('localhost', 'root', '', 'MyPicture');
+// Verifica la conexión
+if ($conn->connect_error) {
+  die("La conexión a la base de datos falló: " . $conn->connect_error);
+}
+
+// Selecciona la tabla de la que quieres obtener el número de registros
+$table_name = "Servicios";
+
+// Crea la sentencia SQL para obtener el número de registros
+$sql = "SELECT COUNT(*) as total FROM $table_name";
+
+// Ejecuta la consulta
+$result = $conn->query($sql);
+
+// Verifica si la consulta fue exitosa
+if ($result->num_rows > 0) {
+  // Lee el resultado de la consulta
+  $row = $result->fetch_assoc();
+  $cantidad = $row["total"];
+  if($cantidad==0){
+    $cantidad=0;
+    $direccion="https://thumbs.dreamstime.com/b/empty-word-crack-background-latter-english-wall-147719385.jpg";
+    $flag=false;
+  }else{
+    $flag=true;
+    $sql = "SELECT Nombre, Descripcion, Ruta, Precio FROM $table_name";
+    $result = $conn->query($sql);
+
+    
+    $direccion = array();
+    while ($fila = mysqli_fetch_assoc($result)) {
+      $direccion[] = $fila;
+    }
+
+// Mostrar los datos del array
+
+   
+    
+
+
+  }
+} else {
+  
+
+}
+
+// Cierra la conexión a la base de datos
+$conn->close();
+
+?>
+
 
 </main>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js" integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N" crossorigin="anonymous"></script>
@@ -184,7 +243,7 @@
     
     <body>
      
-      <header>
+    <header>
         <div class="px-3 py-2 text-bg-dark">
           <div class="container">
             <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
@@ -205,7 +264,7 @@
                 </li>
                 
                 <li>
-                  <a href="Servicios.php" class="nav-link text-white">
+                  <a href="Eventos.php" class="nav-link text-white">
                     <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="#people-circle"/></svg>
                     Eventos
                   </a>
@@ -229,7 +288,27 @@
                     Contactanos
                   </a>
                 </li>
-               
+                <div>
+                <div>
+                  <img onclick="showCart(this)" class="cart" src="https://cdn-icons-png.flaticon.com/512/4034/4034386.png" height="50dp" alt="">
+                  <p class="count-product" id="cantidad">0</p>
+              </div>
+              <div class="cart-products" id="products-id">
+                  <p class="close-btn" onclick="closeBtn()">X</p>
+                  <form method="POST" action="InsertarCompra.php">
+                  <h3 >Mi carrito</h3>
+                  <div id="cart" text-dark></div>
+                  <br>
+                  <h4>Total:<input type="text" name="monto" id="total" size="5"  class="field left" readonly></h4>
+                  <br>
+                  <h5>Nombre:<input type="text" placeholder="Nombre" size="5" id="nombre" name="nombre"></input></h5>
+                  <br>
+                  <button class="btn btn-primary" type="submit">Comprar</button>
+                  <br>
+
+                  </form>
+                  
+              </div>
               </ul>
             </div>
           </div>
@@ -255,93 +334,102 @@
         </div>
       </header>
 
-      
-        <div id="myCarousel" class="carousel slide" data-bs-ride="carousel" style="padding-bottom: 20px; ">
-          <div class="carousel-indicators">
-            <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-            <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
-            <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
-          </div>
-          <div class="carousel-inner">
-            <div class="carousel-item active">
-              <img src="https://wallpapers.com/images/featured/jrz8wy1qfbx8j0oo.jpg" class="d-block w-100" alt="banner1">
-              <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"/></svg>
-              <div class="container">
-                
-                <div class="carousel-caption text-start text-dark-emphasis">
-                  <h1>Libertad</h1>
-                  <p>Únete al club de motocicletas y vive la libertad en dos ruedas.</p>
-                  <p><a class="btn btn-lg btn-primary" href="../UCB_RACERS/CrearCuenta.php">Crea una cuenta</a></p>
-                </div>
-              </div>
-            </div>
-            <div class="carousel-item ">
-              <img src="https://wallpapercave.com/wp/wp1933240.jpg" class="d-block w-100" alt="banner2">
-              <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"/></svg>
-              <div class="container">
-                <div class="carousel-caption text-dark-emphasis">
-                  <h1>Vive nuevas experiencias</h1>
-                  <p>Únete a nuestro club de motocicletas y vive la pasión sobre dos ruedas</p>
-                  <p><a class="btn btn-lg btn-primary" href="../UCB_RACERS/CrearCuenta.php">Aprende más</a></p>
-                </div>
-              </div>
-            </div>
-            <div class="carousel-item">
-              <img src="https://images.ctfassets.net/bht415zek091/6byk5yTCSABhf9RUzV8FRU/61b8a1db1fc59586147e460fadb32c1b/2.jpg" class="d-block w-100" alt="banner3">
-              <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"/></svg>
-              <div class="container">
-                <div class="carousel-caption text-end text-dark text-">
-                  <h1>Comunidad</h1>
-                  <p>¿Eres un apasionado de las motocicletas? Únete a nuestro club y comparte tu pasión con otros riders como tú.</p>
-                  <p><a class="btn btn-lg btn-primary" href="../UCB_RACERS/CrearCuenta.php">Crea una cuenta</a></p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-          </button>
-          <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-          </button>
-          
-        </div>
+
 
       
 
+
+
+
+
+
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      
       
 
-     
-        <div class="px-4 py-5 my-5 text-center bg-dark-subtle">
-          <img class="d-block mx-auto mb-4" src="https://cdn-icons-png.flaticon.com/512/10003/10003345.png" alt="" width="72" height="72">
-          <h1 class="display-5 fw-bold">My picture UCB</h1>
-          <div class="col-lg-6 mx-auto">
-            <p class="lead mb-4">My Picture Ucb es una empresa especializada en fotografía, que ofrece una amplia variedad de servicios personalizados para eventos y sesiones de fotos. Con años de experiencia en el sector, nuestro equipo de fotógrafos altamente capacitados está dedicado a capturar momentos especiales y crear recuerdos duraderos para nuestros clientes. Ofrecemos servicios de toma de fotografías para bodas, cumpleaños, eventos corporativos, retratos y más. Además, en nuestra tienda en línea, ofrecemos una amplia selección de fotos de alta calidad para que nuestros clientes puedan elegir y adquirir para sus hogares u oficinas.</p>
-            <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
-              
-            </div>
-          </div>
-        </div>
-  
+      <div class="row">
+      <?php 
+      if($flag){
+        for ($i= 0; $i < $cantidad; $i++) { 
+          ?>
+
+
         
-  
-        <div class="container col-xxl-8 px-4 py-5 bg-dark-subtle">
-          <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
-            <div class="col-10 col-sm-8 col-lg-6">
-              <img src="https://www.blogdelfotografo.com/wp-content/uploads/2022/06/estudio-fotogra%CC%81fico.jpg" class="d-block mx-lg-auto img-fluid" alt="Bootstrap Themes" width="700" height="500" loading="lazy">
+
+
+       
+        <div class="col-md-6 col-lg-4">
+            <div class="card border-0 transform-on-hover">
+              <a class="lightbox" href=<?php echo $direccion[$i]["Ruta"]?> >
+                <img src=<?php echo $direccion[$i]["Ruta"]?> alt="Card Image" class="card-img-top">
+              </a>
+                <div class="card-body">
+                    <h6><a href="#"><?php echo $direccion[$i]["Nombre"]?></a></h6>
+                    
+                    
+                    <p class="text-muted card-text"><?php echo $direccion[$i]["Descripcion"]?></p>
+                    <p class="text-muted card-text"><?php echo $direccion[$i]["Precio"]?></p>
+                    <button class="btn btn-primary" onclick="addToCart('<?php echo $direccion[$i]["Nombre"]?>', <?php echo $direccion[$i]["Precio"]?>)"> Añadir al carrito</button>
+                    
+                  
+
+                </div>
             </div>
-            <div class="col-lg-6">
-              <h1 class="display-5 fw-bold lh-1 mb-3">Nuestra Mision</h1>
-              <p class="lead">La misión de My Picture Ucb es proporcionar servicios de fotografía de alta calidad y personalizados a nuestros clientes, capturando momentos especiales y creando recuerdos duraderos. Nos esforzamos por ofrecer un servicio excepcional y una experiencia satisfactoria para cada cliente, desde la toma de fotografías hasta la entrega de los productos finales. Además, nuestra tienda en línea ofrece una amplia selección de fotos de alta calidad para que nuestros clientes puedan elegir y adquirir para sus hogares u oficinas. En My Picture Ucb, estamos comprometidos con la excelencia y la satisfacción del cliente en todo lo que hacemos.</p>
-              <div class="d-grid gap-2 d-md-flex justify-content-md-start">
-              </div>
-            </div>
-          </div>
         </div>
+
+
+
+
+
+
+
+        <?php }
+      }
       
-      
+      ?>
+<!--
+	            <div class="col-md-6 col-lg-4">
+	                <div class="card border-0 transform-on-hover">
+	                	<a class="lightbox" href="../img/image4.jpg">
+	                		<img src="../img/image4.jpg" alt="Card Image" class="card-img-top">
+	                	</a>
+	                    <div class="card-body">
+	                        <h6><a href="#">Lorem Ipsum</a></h6>
+	                        <p class="text-muted card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quam urna.</p>
+	                    </div>
+	                </div>
+	            </div>
+	            <div class="col-md-6 col-lg-4">
+	                <div class="card border-0 transform-on-hover">
+	                	<a class="lightbox" href="../img/image5.jpg">
+	                		<img src="../img/image5.jpg" alt="Card Image" class="card-img-top">
+	                	</a>
+	                    <div class="card-body">
+	                        <h6><a href="#">Lorem Ipsum</a></h6>
+	                        <p class="text-muted card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quam urna.</p>
+	                    </div>
+	                </div>
+	            </div>
+	            <div class="col-md-6 col-lg-4">
+	                <div class="card border-0 transform-on-hover">
+	                	<a class="lightbox" href="../img/image6.jpg">
+	                		<img src="../img/image6.jpg" alt="Card Image" class="card-img-top">
+	                	</a>
+	                    <div class="card-body">
+	                        <h6><a href="#">Lorem Ipsum</a></h6>
+	                        <p class="text-muted card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quam urna.</p>
+	                    </div>
+	                </div>
+	            </div>
+	        
+-->
+          
+            </div>
       
 
       <div class="container">
@@ -395,8 +483,56 @@
         </footer>
       </div>
       
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.js"></script>
+    <script>
+        baguetteBox.run('.cards-gallery', { animation: 'slideIn'});
     </script>
-    <div id="cart"></div>
+    <script>
+        let cartItems = [];
+
+// Crea una función para añadir un artículo al carrito
+        function addToCart(itemName, itemPrice) {
+          // Crea un objeto para representar el artículo
+          const item = {
+            name: itemName,
+            price: itemPrice
+          };
+
+          // Añade el artículo al array de artículos en el carrito
+          cartItems.push(item);
+
+          // Actualiza la vista del carrito para mostrar el contenido actualizado
+          updateCart();
+        }
+
+        // Crea una función para mostrar el contenido actual del carrito
+        function updateCart() {
+          // Obtiene el elemento del HTML donde se mostrará el carrito
+          const cart = document.getElementById("cart");
+
+          // Crea una variable para almacenar el HTML que se mostrará en el carrito
+          let cartHTML = "";
+          aux=0;
+          cont=0;
+          // Itera sobre los artículos en el carrito y crea un elemento HTML para cada uno
+          cartItems.forEach(function(item) {
+            cartHTML += "<div>" + item.name + " - $" + item.price + "</div>";
+            aux+=item.price;
+            cont++;
+          });
+          document.getElementById("cantidad").innerText  =cont;
+
+          document.getElementById("total").value =aux;
+
+          // Si el carrito está vacío, muestra un mensaje de aviso en lugar de los artículos
+          if (cartItems.length === 0) {
+            cartHTML = "<p>Tu carrito está vacío</p>";
+          }
+
+          // Muestra el contenido del carrito en la página HTML
+          cart.innerHTML = cartHTML;
+        }
+    </script>
     <script>
         function showCart(x){
             document.getElementById("products-id").style.display = "block";
@@ -406,6 +542,6 @@
         }
 
     </script>
-    <script src="custom.js" ></script>
+    <script src="./custom.js" ></script>
   </body>
 </html>
