@@ -3,12 +3,12 @@ body{
 }
 header{
     background-color: #e4e4e8;
-    padding-top: 18px;
-    padding-bottom: 18px;
-    box-shadow: 0 7px 8px -3px grey;
+    padding-top: 0px;
+    padding-bottom: 0px;
     position: fixed;
     width: 100%;
-    margin-top: -10px;
+    box-shadow: 0 7px 8px -3px grey;
+    margin-top: 0px;
     z-index: 99;
 }
 .container{

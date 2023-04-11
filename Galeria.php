@@ -222,7 +222,6 @@ if ($result->num_rows > 0) {
 
    
     
-    echo "La tabla $table_name tiene $cantidad registros.";
 
 
   }
@@ -291,20 +290,24 @@ $conn->close();
                 </li>
                 <div>
                 <div>
-                  <img onclick="showCart(this)" class="cart" src="https://www.freepnglogos.com/uploads/shopping-cart-png/shopping-cart-svg-png-icon-download-28.png" height="50dp" alt="">
-                  <p class="count-product">0</p>
+                  <img onclick="showCart(this)" class="cart" src="https://cdn-icons-png.flaticon.com/512/4034/4034386.png" height="50dp" alt="">
+                  <p class="count-product" id="cantidad">0</p>
               </div>
               <div class="cart-products" id="products-id">
                   <p class="close-btn" onclick="closeBtn()">X</p>
+                  <form method="POST" action="InsertarCompra.php">
                   <h3 >Mi carrito</h3>
                   <div id="cart" text-dark></div>
                   <br>
-                  <h4>Total:<input type="text" id="total" size="5"  class="field left" readonly></h4>
+                  <h4>Total:<input type="text" name="monto" id="total" size="5"  class="field left" readonly></h4>
                   <br>
-                  <h5>Nombre:<input type="text" placeholder="Nombre" size="5"></input></h5>
+                  <h5>Nombre:<input type="text" placeholder="Nombre" size="5" id="nombre" name="nombre"></input></h5>
                   <br>
                   <button class="btn btn-primary" type="submit">Comprar</button>
                   <br>
+
+                  </form>
+                  
               </div>
               </ul>
             </div>
@@ -340,6 +343,14 @@ $conn->close();
 
 
 
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      
+      
 
       <div class="row">
       <?php 
@@ -502,11 +513,15 @@ $conn->close();
           // Crea una variable para almacenar el HTML que se mostrará en el carrito
           let cartHTML = "";
           aux=0;
+          cont=0;
           // Itera sobre los artículos en el carrito y crea un elemento HTML para cada uno
           cartItems.forEach(function(item) {
             cartHTML += "<div>" + item.name + " - $" + item.price + "</div>";
             aux+=item.price;
+            cont++;
           });
+          document.getElementById("cantidad").innerText  =cont;
+
           document.getElementById("total").value =aux;
 
           // Si el carrito está vacío, muestra un mensaje de aviso en lugar de los artículos
