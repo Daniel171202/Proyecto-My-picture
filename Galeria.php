@@ -79,6 +79,7 @@
     <link href="css/cover.css" rel="stylesheet">
     <link href="css/headers.css" rel="stylesheet">
     <link href="css/carousel.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
   </head>
   
     
@@ -243,7 +244,7 @@ $conn->close();
     
     <body>
      
-      <header>
+    <header>
         <div class="px-3 py-2 text-bg-dark">
           <div class="container">
             <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
@@ -288,6 +289,23 @@ $conn->close();
                     Contactanos
                   </a>
                 </li>
+                <div>
+                <div>
+                  <img onclick="showCart(this)" class="cart" src="https://www.freepnglogos.com/uploads/shopping-cart-png/shopping-cart-svg-png-icon-download-28.png" height="50dp" alt="">
+                  <p class="count-product">0</p>
+              </div>
+              <div class="cart-products" id="products-id">
+                  <p class="close-btn" onclick="closeBtn()">X</p>
+                  <h3 >Mi carrito</h3>
+                  <div id="cart" text-dark></div>
+                  <br>
+                  <h4>Total:<input type="text" id="total" size="5"  class="field left" readonly></h4>
+                  <br>
+                  <h5>Nombre:<input type="text" placeholder="Nombre" size="5"></input></h5>
+                  <br>
+                  <button class="btn btn-primary" type="submit">Comprar</button>
+                  <br>
+              </div>
               </ul>
             </div>
           </div>
@@ -312,12 +330,6 @@ $conn->close();
           </div>
         </div>
       </header>
-
-
-
-
-
-
 
 
 
@@ -489,11 +501,13 @@ $conn->close();
 
           // Crea una variable para almacenar el HTML que se mostrará en el carrito
           let cartHTML = "";
-
+          aux=0;
           // Itera sobre los artículos en el carrito y crea un elemento HTML para cada uno
           cartItems.forEach(function(item) {
             cartHTML += "<div>" + item.name + " - $" + item.price + "</div>";
+            aux+=item.price;
           });
+          document.getElementById("total").value =aux;
 
           // Si el carrito está vacío, muestra un mensaje de aviso en lugar de los artículos
           if (cartItems.length === 0) {
@@ -504,6 +518,15 @@ $conn->close();
           cart.innerHTML = cartHTML;
         }
     </script>
-    <div id="cart"></div>
+    <script>
+        function showCart(x){
+            document.getElementById("products-id").style.display = "block";
+        }
+        function closeBtn(){
+             document.getElementById("products-id").style.display = "none";
+        }
+
+    </script>
+    <script src="./custom.js" ></script>
   </body>
 </html>
